@@ -1,0 +1,22 @@
+{
+    "name": "reflow/laravel",
+    "description": "Reflow API Explorer — Laravel adapter (local-first, free alternative to Swagger UI/Scalar/ReDoc)",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Reflow\\Laravel\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Reflow\\Laravel\\ReflowServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,86 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Reflow Demo API", "version": "1.0.0" },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "List users",
+        "operationId": "listUsers",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "minimum": 1 } }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create user",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/UserInput" } }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user by id",
+        "operationId": "getUser",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/orders": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Create order",
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/OrderInput" } }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserInput": {
+        "type": "object",
+        "required": ["name", "email", "role"],
+        "properties": {
+          "name": { "type": "string", "minLength": 2, "maxLength": 60 },
+          "email": { "type": "string", "format": "email" },
+          "role": { "type": "string", "enum": ["admin", "member", "viewer"] },
+          "age": { "type": "integer", "minimum": 18, "maximum": 99 }
+        }
+      },
+      "OrderInput": {
+        "type": "object",
+        "required": ["items", "status"],
+        "properties": {
+          "status": { "type": "string", "enum": ["pending", "paid", "cancelled"] },
+          "placedAt": { "type": "string", "format": "date-time" },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["sku", "quantity"],
+              "properties": {
+                "sku": { "type": "string" },
+                "quantity": { "type": "integer", "minimum": 1 },
+                "buyer": { "$ref": "#/components/schemas/UserInput" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

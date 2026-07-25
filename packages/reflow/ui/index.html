@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Reflow — API Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- YAML support, so the same panel accepts .yaml or .json specs -->
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body x-data="reflowPanel()" x-init="init()">
+
+  <nav class="reflow-sidebar">
+    <template x-for="(ops, tag) in groups" :key="tag">
+      <div>
+        <h2 x-text="tag"></h2>
+        <template x-for="op in ops" :key="op.operationId">
+          <div
+            class="reflow-endpoint"
+            :class="{ active: selected === op }"
+            @click="select(op)"
+          >
+            <span class="reflow-method" :class="op.method.toLowerCase()" x-text="op.method"></span>
+            <span x-text="op.path"></span>
+          </div>
+        </template>
+      </div>
+    </template>
+  </nav>
+
+  <main class="reflow-main">
+    <p class="reflow-error" x-show="error" x-text="error"></p>
+
+    <template x-if="selected">
+      <div>
+        <div class="reflow-title-row">
+          <span class="reflow-method" :class="selected.method.toLowerCase()" x-text="selected.method"></span>
+          <span class="reflow-path" x-text="resolvedPath()"></span>
+        </div>
+        <p x-text="selected.summary"></p>
+
+        <template x-if="selected.parameters.length">
+          <div class="reflow-params">
+            <template x-for="param in selected.parameters" :key="param.name">
+              <template x-if="true">
+                <div style="display:contents">
+                  <label x-text="param.name + ' (' + param.in + ')'"></label>
+                  <input type="text" x-model="paramValues[param.name]" />
+                </div>
+              </template>
+            </template>
+          </div>
+        </template>
+
+        <template x-if="selected.requestBodySchema">
+          <textarea x-model="bodyText" spellcheck="false"></textarea>
+        </template>
+
+        <button class="reflow-send" @click="send()" :disabled="loading">
+          <span x-text="loading ? 'Sending…' : 'Send'"></span>
+        </button>
+
+        <template x-if="response">
+          <div>
+            <p>
+              Status:
+              <span class="reflow-status" :class="response.ok ? 'ok' : 'fail'" x-text="response.status"></span>
+            </p>
+            <div class="reflow-response" x-text="response.body"></div>
+          </div>
+        </template>
+      </div>
+    </template>
+  </main>
+
+</body>
+</html>

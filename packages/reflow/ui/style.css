@@ -1,0 +1,140 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #262b36;
+  --text: #e6e8eb;
+  --muted: #8a90a2;
+  --accent: #5b8def;
+  --get: #4caf7d;
+  --post: #e0a63b;
+  --put: #5b8def;
+  --delete: #e05b5b;
+  --patch: #a15be0;
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+}
+
+.reflow-sidebar {
+  width: 280px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.reflow-sidebar h2 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  padding: 0.75rem 1rem 0.25rem;
+  margin: 0;
+}
+
+.reflow-endpoint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.reflow-endpoint:hover { background: var(--panel); }
+.reflow-endpoint.active { background: var(--panel); border-left: 2px solid var(--accent); }
+
+.reflow-method {
+  font-weight: 700;
+  font-size: 0.7rem;
+  width: 3rem;
+  text-align: center;
+}
+
+.reflow-method.get { color: var(--get); }
+.reflow-method.post { color: var(--post); }
+.reflow-method.put { color: var(--put); }
+.reflow-method.delete { color: var(--delete); }
+.reflow-method.patch { color: var(--patch); }
+
+.reflow-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.reflow-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.reflow-path {
+  font-family: "SF Mono", Consolas, monospace;
+  font-size: 1rem;
+}
+
+.reflow-params {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  max-width: 480px;
+}
+
+.reflow-params label { color: var(--muted); font-size: 0.85rem; align-self: center; }
+
+input, textarea {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-family: "SF Mono", Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 220px;
+  resize: vertical;
+}
+
+button.reflow-send {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  margin: 0.75rem 0;
+}
+
+button.reflow-send:disabled { opacity: 0.6; cursor: default; }
+
+.reflow-response {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  white-space: pre-wrap;
+  font-family: "SF Mono", Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.reflow-status.ok { color: var(--get); }
+.reflow-status.fail { color: var(--delete); }
+
+.reflow-error { color: var(--delete); font-size: 0.85rem; margin: 0.5rem 0; }
