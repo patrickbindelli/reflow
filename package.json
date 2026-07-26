@@ -1,0 +1,13 @@
+{
+  "name": "reflow-api",
+  "private": true,
+  "description": "Dev-only workspace root. Only the ui/ package has real dependencies (Tailwind build) — nothing here ships to consumers or is required by the Laravel adapter.",
+  "workspaces": [
+    "packages/reflow/ui"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace packages/reflow/ui",
+    "dev:css": "npm run dev:css --workspace packages/reflow/ui",
+    "build": "npm run build --workspace packages/reflow/ui"
+  }
+}

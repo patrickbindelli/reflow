@@ -1,0 +1,17 @@
+{
+  "name": "@reflow/ui",
+  "private": true,
+  "description": "Dev-only Tailwind build for Reflow's UI panel. Output (style.css) is committed and served as plain CSS — this package.json/node_modules never ship to consumers.",
+  "scripts": {
+    "build": "tailwindcss -i src/input.css -o style.css --minify",
+    "dev:css": "tailwindcss -i src/input.css -o style.css --watch",
+    "dev:serve": "live-server ../../.. --port=3000 --ignore=node_modules,.git",
+    "dev": "concurrently -k -n css,serve \"npm:dev:css\" \"npm:dev:serve\""
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "tailwindcss": "^4.0.0",
+    "live-server": "^1.2.2",
+    "concurrently": "^9.0.0"
+  }
+}

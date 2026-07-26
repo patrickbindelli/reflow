@@ -61,8 +61,10 @@ const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete', 'options', 'head'
  * (each entry carries its tag so the UI can group without a second pass).
  * @param {object} spec
  * @returns {Array<{
- *   method: string, path: string, tag: string, summary: string,
- *   operationId: string, parameters: object[], requestBodySchema: object|null
+ *   method: string, path: string, tag: string, summary: string, description: string,
+ *   operationId: string, parameters: object[], requestBodySchema: object|null,
+ *   responses: Array<{status: string, description: string, schema: object|null}>,
+ *   security: Array<Record<string, string[]>>
  * }>}
  */
 export function parseSpec(spec) {
@@ -78,14 +80,23 @@ export function parseSpec(spec) {
 
       const requestBody = operation.requestBody?.content?.['application/json']?.schema || null;
 
+      const responses = Object.entries(operation.responses || {}).map(([status, res]) => ({
+        status,
+        description: res.description || '',
+        schema: res.content?.['application/json']?.schema || null,
+      }));
+
       operations.push({
         method: method.toUpperCase(),
         path,
         tag: operation.tags?.[0] || 'default',
         summary: operation.summary || operation.operationId || `${method.toUpperCase()} ${path}`,
+        description: operation.description || '',
         operationId: operation.operationId || `${method}_${path}`,
         parameters: [...pathLevelParams, ...(operation.parameters || [])],
         requestBodySchema: requestBody,
+        responses,
+        security: operation.security || spec.security || [],
       });
     }
   }

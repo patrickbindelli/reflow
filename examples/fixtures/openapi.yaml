@@ -14,6 +14,8 @@ paths:
           schema:
             type: integer
             minimum: 1
+      security:
+        - apiKeyAuth: []
       responses:
         "200":
           description: OK
@@ -54,10 +56,20 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/OrderInput"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
   schemas:
     UserInput:
       type: object

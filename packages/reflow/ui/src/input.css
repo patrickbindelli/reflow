@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* Color tokens vendored from @radix-ui/colors dark scales (slate, blue,
+   green, amber, red, purple, indigo) — same values used before the
+   Tailwind migration, now exposed as theme colors instead of raw :root
+   custom properties. */
+@theme {
+  --color-bg: #111113;
+  --color-panel: #18191b;
+  --color-panel-alt: #212225;
+  --color-border: #363a3f;
+  --color-text: #edeef0;
+  --color-muted: #b0b4ba;
+  --color-accent: #0090ff;
+  --color-get: #3dd68c;
+  --color-post: #ffca16;
+  --color-put: #70b8ff;
+  --color-delete: #ff9592;
+  --color-patch: #d19dff;
+  --color-tok-key: #9eb1ff;
+  --color-tok-string: #3dd68c;
+  --color-tok-number: #ffca16;
+  --color-tok-boolean: #d19dff;
+  --color-tok-null: #b0b4ba;
+
+  --font-sans: -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SF Mono", Consolas, monospace;
+}
+
+/*
+ * Everything else in the UI is authored as Tailwind utility classes
+ * directly in index.html. These few classes exist only because their
+ * color is picked at runtime (Alpine binds them from spec/response
+ * data), so Tailwind's static scanner can never see a full utility
+ * class name to generate — see the plan doc for why.
+ */
+@layer components {
+  .method-get { @apply text-get; }
+  .method-post { @apply text-post; }
+  .method-put { @apply text-put; }
+  .method-delete { @apply text-delete; }
+  .method-patch { @apply text-patch; }
+
+  .badge-in-path { @apply text-accent border-accent; }
+  .badge-in-query { @apply text-get border-get; }
+  .badge-in-header { @apply text-patch border-patch; }
+  .badge-in-cookie { @apply text-post border-post; }
+
+  .status-ok { @apply text-get border-get; }
+  .status-fail { @apply text-delete border-delete; }
+
+  .tok-key { @apply text-tok-key; }
+  .tok-string { @apply text-tok-string; }
+  .tok-number { @apply text-tok-number; }
+  .tok-boolean { @apply text-tok-boolean; }
+  .tok-null { @apply text-tok-null; }
+}
